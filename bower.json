@@ -1,9 +1,12 @@
 {
   "name": "gulp-starter-project",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "authors": "",
   "private": true,
   "dependencies": {
-    "sass-css3-mixins": "*"
+    "sass-css3-mixins": "*",
+    "animate.css": "~3.3.0",
+    "jcf": "~1.1.3",
+    "jquery": ">=1.7"
   }
 }

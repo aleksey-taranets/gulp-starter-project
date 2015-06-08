@@ -17,6 +17,7 @@ var paths = {
     distDev: './dist.dev',
     distProd: './dist.prod',
     distScriptsProd: './dist.prod/scripts',
+    distCssProd: './dist.prod/styles',
     scriptsDevServer: 'devServer/**/*.js'
 };
 
@@ -63,11 +64,18 @@ pipes.builtVendorScriptsDev = function() {
 };
 
 pipes.builtVendorScriptsProd = function() {
-    return gulp.src(bowerFiles('*.js'))
+    return gulp.src(bowerFiles(['**/*.js']))
         .pipe(pipes.orderedVendorScripts())
         .pipe(plugins.concat('vendor.min.js'))
         .pipe(plugins.uglify())
         .pipe(gulp.dest(paths.distScriptsProd));
+};
+
+pipes.builtVendorCssProd = function() {
+    return gulp.src(bowerFiles(['**/*.css']))
+        .pipe(plugins.concat('vendor.min.css'))
+        .pipe(plugins.minifyCss())
+        .pipe(gulp.dest(paths.distCssProd));
 };
 
 pipes.validatedDevServerScripts = function() {
@@ -138,12 +146,14 @@ pipes.builtFilesDev = function() {
 pipes.builtFilesProd = function() {
 
     var vendorScripts = pipes.builtVendorScriptsProd();
+    var vendorStyles = pipes.builtVendorCssProd();
     var appScripts = pipes.builtAppScriptsProd();
     var appStyles = pipes.builtStylesProd();
 
     return pipes.validatedFiles()
         .pipe(gulp.dest(paths.distProd)) // write first to get relative path for inject
         .pipe(plugins.inject(vendorScripts, {relative: true, name: 'bower'}))
+        .pipe(plugins.inject(vendorStyles, {relative: true, name: 'bower'}))
         .pipe(plugins.inject(appScripts, {relative: true}))
         .pipe(plugins.inject(appStyles, {relative: true}))
         .pipe(plugins.htmlmin({collapseWhitespace: true, removeComments: true}))
