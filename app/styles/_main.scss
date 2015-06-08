@@ -1,0 +1,5 @@
+body {
+  background: red;
+  widows: $width;
+  @include background-gradient(#ccc, #fff);
+}
