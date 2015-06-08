@@ -1,15 +1,8 @@
-angular.module('healthyGulpAngularApp', ['ui.router'])
+;(function($){
+    "use strict";
 
-.config(['$stateProvider', '$urlRouterProvider',
-    function($stateProvider, $urlRouterProvider) {
+    $(function(){
 
-        $urlRouterProvider.otherwise('/');
+    });
 
-        $stateProvider
-
-            .state('home', {
-                url: '/',
-                templateUrl: 'components/home.html'
-            });
-
-    }]);
+})(jQuery);
