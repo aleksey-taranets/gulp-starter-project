@@ -11,7 +11,7 @@ var Q = require('q');
 var paths = {
     scripts: 'app/**/*.js',
     styles: ['./app/**/*.css', './app/**/*.scss'],
-    fonts: './fonts/**/*',
+    fonts: './app/fonts/**/*',
     images: './app/images/**/*',
     files: './app/*.html',
     distDev: './dist.dev',
@@ -22,6 +22,7 @@ var paths = {
 };
 
 var vendorOrder = ['jquery.js', 'angular.js'];
+var appOrder = ['calc-data.js', 'app.js'];
 
 // == PIPE SEGMENTS ========
 
@@ -29,6 +30,10 @@ var pipes = {};
 
 pipes.orderedVendorScripts = function() {
     return plugins.order(vendorOrder);
+};
+
+pipes.orderedAppScripts = function() {
+    return plugins.order(appOrder);
 };
 
 pipes.minifiedFileName = function() {
@@ -45,6 +50,7 @@ pipes.validatedAppScripts = function() {
 
 pipes.builtAppScriptsDev = function() {
     return pipes.validatedAppScripts()
+        .pipe(pipes.orderedAppScripts())
         .pipe(gulp.dest(paths.distDev));
 };
 
